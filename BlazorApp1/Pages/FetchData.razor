@@ -1,0 +1,116 @@
+﻿@page "/fetchdata"
+@using ClassLibrary1;
+
+<PageTitle>Eliminar</PageTitle>
+
+<h1>Eliminar Contacto</h1>
+
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <div class="mb-3">
+            <label for="id" class="form-label">ID:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="id" placeholder="id" @bind-value=@id>
+                <button class="btn btn-primary" type="button" id="button-addon2" @onclick="buscar">
+                    <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Nombre" @bind-value=@nom readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input type="text" class="form-control" id="apellido" placeholder="Apellido" @bind-value=@app readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono:</label>
+            <input type="text" class="form-control" id="telefono" placeholder="Teléfono" @bind-value=@tel readonly>
+        </div>
+
+        <div class="mb-3 d-grid">
+            <button class="btn btn-primary" type="button" @onclick="EliminarContacto">Eliminar</button>
+        </div>
+
+        <div class="mb-3">
+            <p>
+                @foreach (var sub in @error.Split('\n') )
+                {
+                    @sub <br />
+                }
+            </p>
+        </div>
+    </div>
+</div>
+@code
+{
+    String id = "";
+    String nom = "";
+    String app = "";
+    String tel = "";
+    String clave = "0";
+    String error = "";
+
+    private void buscar()
+    {
+        error = "";
+        if (id == "")
+        {
+            error += "Falta el Id\n";
+        }
+
+        if (error == "")
+        {
+            Class1 class1 = new Class1();
+            List<string> contacto = class1.buscar(id);
+
+            if (contacto.Count > 0)
+            {
+                nom = contacto.ElementAt(1);
+                app = contacto.ElementAt(2);
+                tel = contacto.ElementAt(3);
+            }
+            else
+            {
+                nom = "";
+                app = "";
+                tel = "";
+                error = "El id no existe";
+            }
+        }
+    }
+
+    private void EliminarContacto()
+    {
+        error = "";
+        if (id == "")
+        {
+            error += "Tiene que poner Id\n";
+        }
+        if (nom == "")
+        {
+            error += "Tiene que poner Id\n";
+        }
+        if (app == "")
+        {
+            error += "Tiene que poner Id\n";
+        }
+        if (tel == "")
+        {
+            error += "Tiene que poner Id\n";
+
+        }
+        if (error == "")
+        {
+            Class1 class1 = new Class1();
+            error = class1.eliminar(id);
+            nom = "";
+            app = "";
+            tel = "";
+        }
+    }
+}

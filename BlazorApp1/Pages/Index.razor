@@ -1,0 +1,74 @@
+﻿@page "/"
+@using ClassLibrary1;
+<PageTitle>Crear contacto</PageTitle>
+<h1>Crear Usuario</h1>
+
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Nombre" @bind-value="@nom">
+        </div>
+
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input type="text" class="form-control" id="apellido" placeholder="Apellido" @bind-value="@app">
+        </div>
+
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Telefono:</label>
+            <input type="text" class="form-control" id="telefono" placeholder="Telefono" @bind-value="@tel">
+        </div>
+
+        <div class="mb-3 d-grid">
+            <button class="btn btn-primary" type="button" @onclick="CrearContacto">Crear</button>
+        </div>
+
+        <div class="mb-3">
+            <p>
+                @foreach (var sub in @error.Split('\n'))
+                {
+                    @sub <br />
+                }
+            </p>
+        </div>
+    </div>
+</div>
+@code {
+    String nom = "";
+    String app = "";
+    String tel = "";
+    String clave = "0";
+    String error = "";
+
+    string name = "";
+    string message = "";
+
+    private void CrearContacto()
+    {
+        error = "";
+
+        if (nom == "")
+        {
+            error += "Falta el nombre\n";
+        }
+        if (app == "")
+        {
+            error += "Falta el apellido\n";
+        }
+        if (tel == "")
+        {
+            error += "Falta el teléfono\n";
+        }
+
+        if (error == "")
+        {
+            Class1 class1 = new Class1();
+            class1.crear(nom, app, tel);
+            error = "Se creó el contacto";
+            nom = "";
+            app = "";
+            tel = "";
+        }
+    }
+}
